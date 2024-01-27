@@ -8,7 +8,7 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 
-///////////////////////////////////////
+////////////////////////////////////////
 // Modal window
 
 const openModal = function (e) {
