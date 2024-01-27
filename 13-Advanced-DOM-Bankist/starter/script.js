@@ -6,6 +6,7 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const nav = document.querySelector('.nav');
+const header = document.querySelector('.header');
 
 ///////////////////////////////////////
 // Modal window
@@ -124,14 +125,31 @@ nav.addEventListener(
 
 // Sticky Navbar
 
-const currentCoordinates = section.getBoundingClientRect();
-window.addEventListener('scroll', function (e) {
-  if (window.scrollY > currentCoordinates.top) {
-    nav.classList.add('sticky');
-  } else {
-    nav.classList.remove('sticky');
-  }
-});
+// const currentCoordinates = section.getBoundingClientRect();
+// window.addEventListener('scroll', function (e) {
+//   if (window.scrollY > currentCoordinates.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+
+// Intersection observer API
+const navHeight = nav.getBoundingClientRect().height;
+
+const obsCallback = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const obsOptions = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+};
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+observer.observe(header);
 
 // const handleHover = function (e, opacity) {
 //   if (e.target.classList.contains('nav__link')) {
