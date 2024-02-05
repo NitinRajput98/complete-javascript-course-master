@@ -1,6 +1,9 @@
 'use strict';
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section = document.querySelector('#section--1');
+const sectionTwo = document.querySelector('#section--2');
+const sectionThree = document.querySelector('#section--3');
+const sectionFour = document.querySelector('#section--4');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
@@ -150,6 +153,25 @@ const obsOptions = {
 };
 const observer = new IntersectionObserver(obsCallback, obsOptions);
 observer.observe(header);
+
+// Revealing Elements on scroll
+const sections = document.querySelectorAll('.section');
+const sectionReveal = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(sectionReveal, {
+  root: null,
+  threshold: 0.15,
+});
+
+sections.forEach(function (section) {
+  section.classList.add('section--hidden');
+  sectionObserver.observe(section);
+});
 
 // const handleHover = function (e, opacity) {
 //   if (e.target.classList.contains('nav__link')) {
