@@ -304,7 +304,7 @@ printBookAuthorsCount('Algorithms', 'Robert Sedgewick', 'Kevin Wayne');
 // Short Circuting (&& and ||)
 // 5.1
 const hasExamplesInJava = function (book) {
-  return book.programmingLanguage === 'Java' || 'not data available';
+  return book.programmingLanguage === 'Java' || 'no data available';
   // if(book.programmingLanguage === "Java"){
   //   return true
   // }else{
@@ -312,4 +312,18 @@ const hasExamplesInJava = function (book) {
   // }
 };
 
-console.log(hasExamplesInJava(books[0]));
+console.log(hasExamplesInJava(books[1]));
+
+//5.2
+books.forEach(
+  book =>
+    book.onlineContent &&
+    console.log(`"${book.title}" provides online content.`)
+);
+
+// The Nullish Coalescing Operator
+books.forEach(
+  book =>
+    book.onlineContent ??
+    console.log(`"${book.title} provides no data about its online content`)
+);
