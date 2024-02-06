@@ -388,3 +388,20 @@ slider();
 //     }
 //   }
 // });
+
+//Lifecycle DOM Events
+
+// //DOMContentLoaded
+// document.addEventListener('DOMContentLoaded', function (e) {
+//   console.log(e);
+// });
+// //Load
+// window.addEventListener('load', function (e) {
+//   console.log(e);
+// });
+// //Beforeunload
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
