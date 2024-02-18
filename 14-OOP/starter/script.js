@@ -193,6 +193,37 @@
 // const nitin = new StudentCl('Nitin Rajput', 1998);
 // nitin.calcAge();
 // console.log(nitin);
+
+// Inheritance between classes using object.create method
+const PersonProto = {
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  },
+  init(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  },
+};
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (fullName, birthYear, course) {
+  PersonProto.init.call(this, fullName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(
+    `Hello my name is ${this.fullName}, my birth year is ${this.birthYear} and my course is ${this.course}`
+  );
+};
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2010, 'Computer Science');
+jay.introduce();
+jay.calcAge();
+console.log(jay);
+
 // #####################################################
 // Coding Challenge #1
 // const Car = function (make, speed) {
