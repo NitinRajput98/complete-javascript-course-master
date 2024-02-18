@@ -1,34 +1,34 @@
 'use strict';
 
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
-  // This is not recommended
-  //   this.calcAge = function () {
-  //     consol.log( 2037 - this.birthYear);
-  //   };
-};
-Person.hey = function () {
-  console.log('Hey there 🙌');
-  console.log(this);
-};
-console.log(Person);
-console.dir(Person);
-Person.hey();
-const jonas = new Person('Jonas', 1998);
+// const Person = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+//   // This is not recommended
+//   //   this.calcAge = function () {
+//   //     consol.log( 2037 - this.birthYear);
+//   //   };
+// };
+// Person.hey = function () {
+//   console.log('Hey there 🙌');
+//   console.log(this);
+// };
+// console.log(Person);
+// console.dir(Person);
+// Person.hey();
+// const jonas = new Person('Jonas', 1998);
 // jonas.hey();
 // console.log(jonas);
 // console.log(jonas instanceof Person);
-const matilda = new Person('Matilda', 2000);
-const john = new Person('John', 2012);
+// const matilda = new Person('Matilda', 2000);
+// const john = new Person('John', 2012);
 // console.log(Person);
 
 // Prototypes
-Person.prototype.calcAge = function () {
-  //   console.log(2037 - this.birthYear);
-};
+// Person.prototype.calcAge = function () {
+//   console.log(2037 - this.birthYear);
+// };
 // console.log('Person prototype:', Person.prototype);
-jonas.calcAge();
+// jonas.calcAge();
 // console.log('Jonas Object:', jonas.__proto__);
 // console.log(Person.prototype === jonas.__proto__);
 // console.log(Person.prototype.isPrototypeOf(jonas));
@@ -36,7 +36,7 @@ jonas.calcAge();
 // console.log(Person.prototype.isPrototypeOf(Person));
 
 // Setting properties
-Person.prototype.species = 'Homo Sepiens';
+// Person.prototype.species = 'Homo Sepiens';
 // console.log(jonas.species, matilda.species);
 // console.log(jonas.hasOwnProperty('firstName'));
 // console.log(jonas.hasOwnProperty('species'));
@@ -53,33 +53,33 @@ Person.prototype.species = 'Homo Sepiens';
 
 // }
 //Class Declaration
-class PersonCl {
-  constructor(fullName, birthYear) {
-    this.fullName = fullName;
-    this.birthYear = birthYear;
-  }
-  //Methods will be added to the prototype property of PersonCl class
-  calcAge() {
-    console.log(2037 - this.birthYear);
-  }
-  greet() {
-    console.log(`Hello ${this.firstName}`);
-  }
-  set fullName(name) {
-    if (name.includes(' ')) this._fullName = name;
-    else alert(`${name} is not valid`);
-  }
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
+//Methods will be added to the prototype property of PersonCl class
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+//   greet() {
+//     console.log(`Hello ${this.firstName}`);
+//   }
+//   set fullName(name) {
+//     if (name.includes(' ')) this._fullName = name;
+//     else alert(`${name} is not valid`);
+//   }
 
-  get fullName() {
-    return this._fullName;
-  }
+//   get fullName() {
+//     return this._fullName;
+//   }
 
-  static hey() {
-    console.log('Hello There from class!!');
-  }
-}
+//   static hey() {
+//     console.log('Hello There from class!!');
+//   }
+// }
 
-PersonCl.hey();
+// PersonCl.hey();
 
 // const jessica = new PersonCl('Jessica', 1991);
 // jessica.hey();
@@ -93,39 +93,63 @@ PersonCl.hey();
 
 //Getters and Setters
 
-const account = {
-  owner: 'Jonas',
-  movements: [200, 100, 300, 400],
-  get latest() {
-    return this.movements[this.movements.length - 1];
-  },
-  set latest(mov) {
-    this.movements.push(mov);
-  },
+// const account = {
+//   owner: 'Jonas',
+//   movements: [200, 100, 300, 400],
+//   get latest() {
+//     return this.movements[this.movements.length - 1];
+//   },
+//   set latest(mov) {
+//     this.movements.push(mov);
+//   },
+// };
+
+// console.log(account.latest);
+// account.latest = 0;
+// console.log(account.latest);
+
+// // Object.create method
+// const PersonProto = {
+//   calcAge() {
+//     console.log(2024 - this.birthYear);
+//   },
+//   init(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   },
+// };
+
+// const kapil = Object.create(PersonProto);
+// kapil.birthYear = 1995;
+// kapil.calcAge();
+
+// const mamta = Object.create(PersonProto);
+// mamta.init('Mamta Rajput', 1960);
+// mamta.calcAge();
+// Inheritance between classes: constructor functions
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
 };
 
-console.log(account.latest);
-account.latest = 0;
-console.log(account.latest);
-
-// Object.create method
-const PersonProto = {
-  calcAge() {
-    console.log(2024 - this.birthYear);
-  },
-  init(fullName, birthYear) {
-    this.fullName = fullName;
-    this.birthYear = birthYear;
-  },
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
 };
 
-const kapil = Object.create(PersonProto);
-kapil.birthYear = 1995;
-kapil.calcAge();
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.constructor = Student;
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
 
-const mamta = Object.create(PersonProto);
-mamta.init('Mamta Rajput', 1960);
-mamta.calcAge();
+const mike = new Student('Mike', 2020, 'Computer Science');
+mike.introduce();
+mike.calcAge();
+
 // #####################################################
 // Coding Challenge #1
 // const Car = function (make, speed) {
