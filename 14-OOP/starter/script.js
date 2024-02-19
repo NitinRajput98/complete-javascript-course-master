@@ -224,53 +224,54 @@
 // jay.calcAge();
 // console.log(jay);
 
-class Account {
-  //Public Fields
-  locale = navigator.language;
-  //Private Fields
-  #movements = [];
-  #pin;
-  constructor(owner, currency, pin) {
-    this.owner = owner;
-    this.currency = currency;
-    this.#pin = pin;
+// class Account {
+//   //Public Fields
+//   locale = navigator.language;
+//   //Private Fields
+//   #movements = [];
+//   #pin;
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+//     this.#pin = pin;
 
-    console.log(`Thanks for opening an account, ${owner}`);
-  }
+//     console.log(`Thanks for opening an account, ${owner}`);
+//   }
 
-  loan(amount) {
-    if (this.#checkLoanApprove()) {
-      this.#movements.push(amount);
-      console.log('Loan Approve!!');
-    } else {
-      console.log('Loan Rejected!!');
-    }
-  }
+//   loan(amount) {
+//     if (this.#checkLoanApprove()) {
+//       this.#movements.push(amount);
+//       console.log('Loan Approve!!');
+//     } else {
+//       console.log('Loan Rejected!!');
+//     }
+//   }
 
-  deposit(val) {
-    this.#movements.push(val);
-  }
+//   deposit(val) {
+//     this.#movements.push(val);
+//   }
 
-  withdraw(val) {
-    this.deposit(-val);
-  }
-  //Private method
-  #checkLoanApprove() {
-    return true;
-  }
+//   withdraw(val) {
+//     this.deposit(-val);
+//   }
+//   //Private method
+//   #checkLoanApprove() {
+//     return true;
+//   }
 
-  // Static methods
-  static helper() {
-    console.log('Help!!');
-  }
-}
+//   // Static methods
+//   static helper() {
+//     console.log('Help!!');
+//   }
+// }
 
-const acc1 = new Account('Jonas', 'EUR', 1111);
-acc1.deposit(250);
-acc1.withdraw(140);
-console.log(acc1);
-acc1.loan(1000);
-Account.helper();
+// const acc1 = new Account('Jonas', 'EUR', 1111);
+// acc1.deposit(250);
+// acc1.withdraw(140);
+// console.log(acc1);
+// acc1.loan(1000);
+// Account.helper();
+// console.log(acc1.#checkLoanApprove());
 // console.log(acc1.#pin);
 // #####################################################
 // Coding Challenge #1
@@ -365,3 +366,58 @@ Account.helper();
 // tesla.accelerate();
 // tesla.brake();
 // tesla.chargeBattery(90);
+
+// Coding Challenge #4
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  accelerate() {
+    this.speed += 10;
+    console.log(`New speed of the car after accelerate : ${this.speed} Km/h`);
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(`New speed of the car after brake : ${this.speed} Km/h`);
+    return this;
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+class EVCl extends CarCl {
+  //Private Property
+  #charge;
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+  accelerate() {
+    this.speed += 20;
+    this.#charge -= 1;
+    console.log(
+      `${this.make} going at ${this.speed}Km/h,with a charge of ${
+        this.#charge
+      }%`
+    );
+    return this;
+  }
+}
+
+const rivian = new EVCl('Rivian', 120, 23);
+rivian.accelerate().chargeBattery(90).brake().accelerate();
+console.log(rivian);
+console.log(rivian.speedUS);
