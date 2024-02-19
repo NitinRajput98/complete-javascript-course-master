@@ -195,35 +195,83 @@
 // console.log(nitin);
 
 // Inheritance between classes using object.create method
-const PersonProto = {
-  calcAge() {
-    console.log(2024 - this.birthYear);
-  },
-  init(fullName, birthYear) {
-    this.fullName = fullName;
-    this.birthYear = birthYear;
-  },
-};
-const steven = Object.create(PersonProto);
+// const PersonProto = {
+//   calcAge() {
+//     console.log(2024 - this.birthYear);
+//   },
+//   init(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   },
+// };
+// const steven = Object.create(PersonProto);
 
-const StudentProto = Object.create(PersonProto);
+// const StudentProto = Object.create(PersonProto);
 
-StudentProto.init = function (fullName, birthYear, course) {
-  PersonProto.init.call(this, fullName, birthYear);
-  this.course = course;
-};
+// StudentProto.init = function (fullName, birthYear, course) {
+//   PersonProto.init.call(this, fullName, birthYear);
+//   this.course = course;
+// };
 
-StudentProto.introduce = function () {
-  console.log(
-    `Hello my name is ${this.fullName}, my birth year is ${this.birthYear} and my course is ${this.course}`
-  );
-};
-const jay = Object.create(StudentProto);
-jay.init('Jay', 2010, 'Computer Science');
-jay.introduce();
-jay.calcAge();
-console.log(jay);
+// StudentProto.introduce = function () {
+//   console.log(
+//     `Hello my name is ${this.fullName}, my birth year is ${this.birthYear} and my course is ${this.course}`
+//   );
+// };
+// const jay = Object.create(StudentProto);
+// jay.init('Jay', 2010, 'Computer Science');
+// jay.introduce();
+// jay.calcAge();
+// console.log(jay);
 
+class Account {
+  //Public Fields
+  locale = navigator.language;
+  //Private Fields
+  #movements = [];
+  #pin;
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  loan(amount) {
+    if (this.#checkLoanApprove()) {
+      this.#movements.push(amount);
+      console.log('Loan Approve!!');
+    } else {
+      console.log('Loan Rejected!!');
+    }
+  }
+
+  deposit(val) {
+    this.#movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+  //Private method
+  #checkLoanApprove() {
+    return true;
+  }
+
+  // Static methods
+  static helper() {
+    console.log('Help!!');
+  }
+}
+
+const acc1 = new Account('Jonas', 'EUR', 1111);
+acc1.deposit(250);
+acc1.withdraw(140);
+console.log(acc1);
+acc1.loan(1000);
+Account.helper();
+// console.log(acc1.#pin);
 // #####################################################
 // Coding Challenge #1
 // const Car = function (make, speed) {
