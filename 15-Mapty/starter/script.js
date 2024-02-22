@@ -44,7 +44,7 @@ class Cycling extends Workout {
   }
 
   calcSpeed() {
-    this.speed = this.distance / this.time / 60;
+    this.speed = this.distance / (this.duration / 60);
     return this.speed;
   }
 }
@@ -124,6 +124,7 @@ class App {
     this.#workouts.push(workout);
     //Display marker
     this.renderWorkoutMarker(workout);
+    console.log(workout);
 
     // Check if input is valid
     // Create a running / cycling object
