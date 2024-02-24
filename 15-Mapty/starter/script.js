@@ -1,4 +1,6 @@
 'use strict';
+// Adding a button for reset functionality
+// Adding the class when we read from localStorage
 
 // prettier-ignore
 
