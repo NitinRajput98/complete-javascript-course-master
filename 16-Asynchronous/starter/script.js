@@ -112,10 +112,27 @@ const renderCountry = (data, className = '') => {
 // console.log(request);
 
 // Api call using promises
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(response => response.json())
+//     .then(data => renderCountry(data[0]));
+// };
+
+// getCountryData('portugal');
+
+//Chaining promises
 const getCountryData = function (country) {
+  // Country 1
   fetch(`https://restcountries.com/v3.1/name/${country}`)
     .then(response => response.json())
-    .then(data => renderCountry(data[0]));
+    .then(data => {
+      renderCountry(data[0]);
+      const [neighbour] = data[0].borders;
+      // Country 2(Neighbouring Country)
+      fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data[0], 'neighbour'));
 };
 
 getCountryData('portugal');
