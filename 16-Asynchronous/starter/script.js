@@ -63,47 +63,59 @@ const renderCountry = (data, className = '') => {
   countriesContainer.style.opacity = 1;
 };
 
-const getCountryAndNeighbour = function (country) {
-  // First api call
-  const request1 = new XMLHttpRequest();
-  request1.open('GET', `https://restcountries.com/v3.1/name/${country}`);
-  request1.send();
-  request1.addEventListener('load', function () {
-    console.log(request1, 'Hello');
-    const [data] = JSON.parse(this.responseText);
-    //Render first country card
-    renderCountry(data);
-    const [neighbour] = data.borders;
-    if (!neighbour) reutrn;
-    // Second api call
-    const request2 = new XMLHttpRequest();
-    request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
-    request2.send();
-    // Render neighbour country card
-    request2.addEventListener('load', function () {
-      const [data] = JSON.parse(this.responseText);
-      renderCountry(data, 'neighbour');
-    });
-  });
+// const getCountryAndNeighbour = function (country) {
+//   // First api call
+//   const request1 = new XMLHttpRequest();
+//   request1.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+//   request1.send();
+//   request1.addEventListener('load', function () {
+//     console.log(request1, 'Hello');
+//     const [data] = JSON.parse(this.responseText);
+//     //Render first country card
+//     renderCountry(data);
+//     const [neighbour] = data.borders;
+//     if (!neighbour) reutrn;
+//     // Second api call
+//     const request2 = new XMLHttpRequest();
+//     request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     request2.send();
+//     // Render neighbour country card
+//     request2.addEventListener('load', function () {
+//       const [data] = JSON.parse(this.responseText);
+//       renderCountry(data, 'neighbour');
+//     });
+//   });
+// };
+
+// getCountryAndNeighbour('Portugal');
+
+// setTimeout(() => {
+//   console.log('1 sec');
+//   setTimeout(() => {
+//     console.log('2 sec');
+//     setTimeout(() => {
+//       console.log('3 sec');
+//       setTimeout(() => {
+//         console.log('4 sec');
+//         setTimeout(() => {
+//           console.log('5 sec');
+//           setTimeout(() => {
+//             console.log('6 sec');
+//           }, 1000);
+//         }, 1000);
+//       }, 1000);
+//     }, 1000);
+//   }, 1000);
+// }, 1000);
+
+// const request = fetch('https://restcountries.com/v3.1/name/portugal');
+// console.log(request);
+
+// Api call using promises
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
 };
 
-getCountryAndNeighbour('Portugal');
-
-setTimeout(() => {
-  console.log('1 sec');
-  setTimeout(() => {
-    console.log('2 sec');
-    setTimeout(() => {
-      console.log('3 sec');
-      setTimeout(() => {
-        console.log('4 sec');
-        setTimeout(() => {
-          console.log('5 sec');
-          setTimeout(() => {
-            console.log('6 sec');
-          }, 1000);
-        }, 1000);
-      }, 1000);
-    }, 1000);
-  }, 1000);
-}, 1000);
+getCountryData('portugal');
