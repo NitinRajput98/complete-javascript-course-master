@@ -169,10 +169,16 @@ const renderError = function (mssg) {
 // getCountryData('portugal');
 
 // Handling Rejected Promises
+// Manually throw errors
+const getJSON = function (url, errormssg = 'Something went wrong') {
+  return fetch(url).then(response => {
+    if (!response.ok) throw new Error(`${response.status}`);
+    return response.json();
+  });
+};
 const getCountryData = function (country) {
   // Country 1
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then(response => response.json())
+  getJSON(`https://restcountries.com/v3.1/name/${country}`)
     .then(data => {
       renderCountry(data[0]);
       const [neighbour] = data[0].borders;
