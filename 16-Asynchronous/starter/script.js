@@ -199,15 +199,50 @@ const renderError = function (mssg) {
 // });
 
 //Event loop in practice
-console.log('Code start');
-setTimeout(() => console.log('0 Seconds timer'), 0);
-Promise.resolve('First Resolved Promise').then(res => console.log(res));
-// console.log(Promise.resolve('First Resolved Promise#####')); This promise gets instantly resolved
-Promise.resolve('Second Resolved Promise').then(res => {
-  for (let i = 0; i < 1000000000; i++) {}
-  console.log(res);
-});
-console.log('Code end');
+// console.log('Code start');
+// setTimeout(() => console.log('0 Seconds timer'), 0);
+// Promise.resolve('First Resolved Promise').then(res => console.log(res));
+// // console.log(Promise.resolve('First Resolved Promise#####')); This promise gets instantly resolved
+// Promise.resolve('Second Resolved Promise').then(res => {
+//   for (let i = 0; i < 10000; i++) {}
+//   console.log(res);
+// });
+// console.log('Code end');
+// Promisifying setTimeout function
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(5)
+  .then(res => {
+    console.log('I waited for 5 seconds');
+    return wait(4);
+  })
+  .then(res => {
+    console.log('I waited for 4 seconds');
+    return wait(3);
+  })
+  .then(res => {
+    console.log('I waited for 3 seconds');
+    return wait(2);
+  })
+  .then(res => {
+    console.log('I waited for 2 seconds');
+    return wait(1);
+  })
+  .then(res => {
+    console.log('I waited for 1 seconds');
+    return wait(0);
+  })
+  .then(res => {
+    console.log('I waited for 0 seconds');
+  });
+
+Promise.resolve(
+  'I waited for 0 seconds, becuase I got resolved immediately'
+).then(res => console.log(res));
 
 // Coding challenge #1
 
