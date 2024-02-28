@@ -23,7 +23,7 @@ const renderCountry = (data, className = '') => {
   </article>
     `;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderError = function (mssg) {
@@ -170,30 +170,58 @@ const renderError = function (mssg) {
 
 // Handling Rejected Promises
 // Manually throw errors
-const getJSON = function (url, errormssg = 'Something went wrong') {
-  return fetch(url).then(response => {
-    if (!response.ok) throw new Error(`${response.status}`);
-    return response.json();
-  });
-};
-const getCountryData = function (country) {
-  // Country 1
-  getJSON(`https://restcountries.com/v3.1/name/${country}`)
+// const getJSON = function (url, errormssg = 'Something went wrong') {
+//   return fetch(url).then(response => {
+//     if (!response.ok) throw new Error(`${response.status}`);
+//     return response.json();
+//   });
+// };
+// const getCountryData = function (country) {
+//   // Country 1
+//   getJSON(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const [neighbour] = data[0].borders;
+//       // Country 2(Neighbouring Country)
+//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     })
+//     .then(response => response.json())
+//     .then(data => renderCountry(data[0], 'neighbour'))
+//     .catch(err => renderError(err.message))
+//     .finally(() => {
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
+
+// // getCountryData('portugal');
+// btn.addEventListener('click', function () {
+//   getCountryData('India');
+// });
+
+// Coding challenge #1
+
+const whereAmI = function (lat, lng) {
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+    .then(response => response.json())
     .then(data => {
-      renderCountry(data[0]);
-      const [neighbour] = data[0].borders;
-      // Country 2(Neighbouring Country)
-      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+      if (data.city === 'Throttled! See geocode.xyz/pricing') {
+        throw new Error(`${data.city}`);
+      }
+      console.log(`You are in ${data.city}, ${data.country}`);
+      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
     })
     .then(response => response.json())
-    .then(data => renderCountry(data[0], 'neighbour'))
-    .catch(err => renderError(err.message))
-    .finally(() => {
-      countriesContainer.style.opacity = 1;
-    });
+    .then(data => {
+      if (!data?.[0]) throw new Error(`Country data does not exist!`);
+      renderCountry(data[0]);
+    })
+    .catch(err => console.log(`This is the error that occurred: ${err}`));
 };
 
-// getCountryData('portugal');
 btn.addEventListener('click', function () {
-  getCountryData('India');
+  // whereAmI(52.508, 13.381);
+  // whereAmI(19.037, 72.873);
+  whereAmI(-33.933, 18.474);
 });
+
+// whereAmI(52.508, 13.381);
