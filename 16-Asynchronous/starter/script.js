@@ -198,6 +198,17 @@ const renderError = function (mssg) {
 //   getCountryData('India');
 // });
 
+//Event loop in practice
+console.log('Code start');
+setTimeout(() => console.log('0 Seconds timer'), 0);
+Promise.resolve('First Resolved Promise').then(res => console.log(res));
+// console.log(Promise.resolve('First Resolved Promise#####')); This promise gets instantly resolved
+Promise.resolve('Second Resolved Promise').then(res => {
+  for (let i = 0; i < 1000000000; i++) {}
+  console.log(res);
+});
+console.log('Code end');
+
 // Coding challenge #1
 
 const whereAmI = function (lat, lng) {
