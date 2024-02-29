@@ -283,6 +283,35 @@ const wait = function (seconds) {
 //   })
 //   .catch(err => console.error(err));
 
+const getLocation = function () {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+// USing async/await
+const whereAmI = async function () {
+  const res = await getLocation();
+  const { latitude: lat, longitude: lng } = res.coords;
+  const res2 = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+  const data = await res2.json();
+  if (data.city === 'Throttled! See geocode.xyz/pricing') {
+    console.log(`${data.city}`);
+    return;
+  }
+  console.log(`You are in ${data.city}, ${data.country}`);
+  const response2 = await fetch(
+    `https://restcountries.com/v3.1/name/${data.country}`
+  );
+  const data2 = await response2.json();
+  if (!data2?.[0]) {
+    console.log(`Country data does not exist!`);
+    return;
+  }
+  renderCountry(data2[1]);
+};
+
+whereAmI();
+
 // Coding challenge #1
 
 // const whereAmI = function (lat, lng) {
@@ -313,36 +342,36 @@ const wait = function (seconds) {
 
 // Coding Challenge #2
 //Part 1
-let currentImg;
-const createImage = function (imgPath) {
-  return new Promise(function (resolve, reject) {
-    const imgEl = document.createElement('img');
-    imgEl.src = imgPath;
-    imgEl.addEventListener('load', function (e) {
-      const imgContainer = document.querySelector('.images');
-      imgContainer.append(imgEl);
-      resolve(imgEl);
-    });
-    imgEl.addEventListener('error', function (e) {
-      reject(imgEl);
-    });
-  });
-};
+// let currentImg;
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const imgEl = document.createElement('img');
+//     imgEl.src = imgPath;
+//     imgEl.addEventListener('load', function (e) {
+//       const imgContainer = document.querySelector('.images');
+//       imgContainer.append(imgEl);
+//       resolve(imgEl);
+//     });
+//     imgEl.addEventListener('error', function (e) {
+//       reject(imgEl);
+//     });
+//   });
+// };
 
-createImage('./img/img-1.jpg')
-  .then(res => {
-    currentImg = res;
-    return wait(2);
-  })
-  .then(() => {
-    currentImg.style.display = 'none';
-    return createImage('./img/img-2.jpg');
-  })
-  .then(res => {
-    currentImg = res;
-    return wait(2);
-  })
-  .then(() => {
-    currentImg.style.display = 'none';
-  })
-  .catch(err => console.error(`${err} ❌❌`));
+// createImage('./img/img-1.jpg')
+//   .then(res => {
+//     currentImg = res;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = 'none';
+//     return createImage('./img/img-2.jpg');
+//   })
+//   .then(res => {
+//     currentImg = res;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = 'none';
+//   })
+//   .catch(err => console.error(`${err} ❌❌`));
