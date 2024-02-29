@@ -289,28 +289,29 @@ const getLocation = function () {
   });
 };
 // USing async/await
+// Error Handling with try/catch
 const whereAmI = async function () {
-  const res = await getLocation();
-  const { latitude: lat, longitude: lng } = res.coords;
-  const res2 = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-  const data = await res2.json();
-  if (data.city === 'Throttled! See geocode.xyz/pricing') {
-    console.log(`${data.city}`);
-    return;
+  try {
+    const res = await getLocation();
+    const { latitude: lat, longitude: lng } = res.coords;
+    const res2 = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    const data = await res2.json();
+    if (data.city === 'Throttled! See geocode.xyz/pricing')
+      throw new Error('The geocode api got Throttled!');
+    console.log(`You are in ${data.city}, ${data.country}`);
+    const response2 = await fetch(
+      `https://restcountries.com/v3.1/name/${data.country}`
+    );
+    const data2 = await response2.json();
+    if (!data2?.[0]) throw new Error('Country Data does not exist!');
+    renderCountry(data2[1]);
+  } catch (err) {
+    console.log(`The following error happened: ${err.message} ❌❌❌❌`);
   }
-  console.log(`You are in ${data.city}, ${data.country}`);
-  const response2 = await fetch(
-    `https://restcountries.com/v3.1/name/${data.country}`
-  );
-  const data2 = await response2.json();
-  if (!data2?.[0]) {
-    console.log(`Country data does not exist!`);
-    return;
-  }
-  renderCountry(data2[1]);
 };
 
 whereAmI();
+console.log('Hello!');
 
 // Coding challenge #1
 
