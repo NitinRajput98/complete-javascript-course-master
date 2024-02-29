@@ -215,59 +215,134 @@ const wait = function (seconds) {
   });
 };
 
-wait(5)
-  .then(res => {
-    console.log('I waited for 5 seconds');
-    return wait(4);
-  })
-  .then(res => {
-    console.log('I waited for 4 seconds');
-    return wait(3);
-  })
-  .then(res => {
-    console.log('I waited for 3 seconds');
-    return wait(2);
-  })
-  .then(res => {
-    console.log('I waited for 2 seconds');
-    return wait(1);
-  })
-  .then(res => {
-    console.log('I waited for 1 seconds');
-    return wait(0);
-  })
-  .then(res => {
-    console.log('I waited for 0 seconds');
-  });
+// wait(5)
+//   .then(res => {
+//     console.log('I waited for 5 seconds');
+//     return wait(4);
+//   })
+//   .then(res => {
+//     console.log('I waited for 4 seconds');
+//     return wait(3);
+//   })
+//   .then(res => {
+//     console.log('I waited for 3 seconds');
+//     return wait(2);
+//   })
+//   .then(res => {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(res => {
+//     console.log('I waited for 1 seconds');
+//     return wait(0);
+//   })
+//   .then(res => {
+//     console.log('I waited for 0 seconds');
+//   });
 
-Promise.resolve(
-  'I waited for 0 seconds, becuase I got resolved immediately'
-).then(res => console.log(res));
+// Promise.resolve(
+//   'I waited for 0 seconds, becuase I got resolved immediately'
+// ).then(res => console.log(res));
+
+// const getLocation = function () {
+//   return new Promise((resolve, reject) => {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// const whereAmI = function () {
+//   getLocation()
+//     .then(res => {
+//       const { latitude: lat, longitude: lng } = res.coords;
+//       return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.city === 'Throttled! See geocode.xyz/pricing') {
+//         throw new Error(`${data.city}`);
+//       }
+//       console.log(`You are in ${data.city}, ${data.country}`);
+//       return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       if (!data?.[0]) throw new Error(`Country data does not exist!`);
+//       renderCountry(data[1]);
+//     })
+//     .catch(err => console.log(`This is the error that occurred: ${err}`));
+// };
+
+// btn.addEventListener('click', function () {
+//   whereAmI();
+// });
+
+// getLocation()
+//   .then(res => {
+//     console.log(res);
+//     console.log(res.coords.latitude, res.coords.longitude);
+//   })
+//   .catch(err => console.error(err));
 
 // Coding challenge #1
 
-const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.city === 'Throttled! See geocode.xyz/pricing') {
-        throw new Error(`${data.city}`);
-      }
-      console.log(`You are in ${data.city}, ${data.country}`);
-      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (!data?.[0]) throw new Error(`Country data does not exist!`);
-      renderCountry(data[0]);
-    })
-    .catch(err => console.log(`This is the error that occurred: ${err}`));
+// const whereAmI = function (lat, lng) {
+//   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.city === 'Throttled! See geocode.xyz/pricing') {
+//         throw new Error(`${data.city}`);
+//       }
+//       console.log(`You are in ${data.city}, ${data.country}`);
+//       return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       if (!data?.[0]) throw new Error(`Country data does not exist!`);
+//       renderCountry(data[0]);
+//     })
+//     .catch(err => console.log(`This is the error that occurred: ${err}`));
+// };
+
+// btn.addEventListener('click', function () {
+//   // whereAmI(52.508, 13.381);
+//   // whereAmI(19.037, 72.873);
+//   whereAmI(-33.933, 18.474);
+// });
+
+// // whereAmI(52.508, 13.381);
+
+// Coding Challenge #2
+//Part 1
+let currentImg;
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const imgEl = document.createElement('img');
+    imgEl.src = imgPath;
+    imgEl.addEventListener('load', function (e) {
+      const imgContainer = document.querySelector('.images');
+      imgContainer.append(imgEl);
+      resolve(imgEl);
+    });
+    imgEl.addEventListener('error', function (e) {
+      reject(imgEl);
+    });
+  });
 };
 
-btn.addEventListener('click', function () {
-  // whereAmI(52.508, 13.381);
-  // whereAmI(19.037, 72.873);
-  whereAmI(-33.933, 18.474);
-});
-
-// whereAmI(52.508, 13.381);
+createImage('./img/img-1.jpg')
+  .then(res => {
+    currentImg = res;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage('./img/img-2.jpg');
+  })
+  .then(res => {
+    currentImg = res;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+  })
+  .catch(err => console.error(`${err} ❌❌`));
