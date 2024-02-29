@@ -170,12 +170,12 @@ const renderError = function (mssg) {
 
 // Handling Rejected Promises
 // Manually throw errors
-// const getJSON = function (url, errormssg = 'Something went wrong') {
-//   return fetch(url).then(response => {
-//     if (!response.ok) throw new Error(`${response.status}`);
-//     return response.json();
-//   });
-// };
+const getJSON = function (url, errormssg = 'Something went wrong') {
+  return fetch(url).then(response => {
+    if (!response.ok) throw new Error(`${response.status}`);
+    return response.json();
+  });
+};
 // const getCountryData = function (country) {
 //   // Country 1
 //   getJSON(`https://restcountries.com/v3.1/name/${country}`)
@@ -290,40 +290,57 @@ const getLocation = function () {
 };
 // USing async/await
 // Error Handling with try/catch
-const whereAmI = async function () {
+// const whereAmI = async function () {
+//   try {
+//     const res = await getLocation();
+//     const { latitude: lat, longitude: lng } = res.coords;
+//     const res2 = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     const data = await res2.json();
+//     if (data.city === 'Throttled! See geocode.xyz/pricing')
+//       throw new Error('The geocode api got Throttled!');
+//     // console.log(`You are in ${data.city}, ${data.country}`);
+//     const response2 = await fetch(
+//       `https://restcountries.com/v3.1/name/${data.country}`
+//     );
+//     const data2 = await response2.json();
+//     if (!data2?.[0]) throw new Error('Country Data does not exist!');
+//     renderCountry(data2[1]);
+//     return `You are in ${data.city}, ${data.country}`;
+//   } catch (err) {
+//     // console.log(`The following error happened: ${err.message} ❌❌❌❌`);
+//     throw err;
+//   }
+// };
+
+// console.log('1: Getting the location');
+// (async () => {
+//   try {
+//     const result = await whereAmI();
+//     console.log(`2 result: ${result}`);
+//   } catch (err) {
+//     console.log(`2 error: ${err.message}`);
+//   } finally {
+//     console.log('3: Finished getting location');
+//   }
+// })();
+// Promise.all (Parallel asynchronous tasks)
+const get3Countries = async function (c1, c2, c3) {
   try {
-    const res = await getLocation();
-    const { latitude: lat, longitude: lng } = res.coords;
-    const res2 = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-    const data = await res2.json();
-    if (data.city === 'Throttled! See geocode.xyz/pricing')
-      throw new Error('The geocode api got Throttled!');
-    // console.log(`You are in ${data.city}, ${data.country}`);
-    const response2 = await fetch(
-      `https://restcountries.com/v3.1/name/${data.country}`
-    );
-    const data2 = await response2.json();
-    if (!data2?.[0]) throw new Error('Country Data does not exist!');
-    renderCountry(data2[1]);
-    return `You are in ${data.city}, ${data.country}`;
+    // const data1 = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+    // const data2 = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+    // const data3 = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+    // console.log(data1[0], data2[0], data3[0]);
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(data.map(country => country[0].capital[0]));
   } catch (err) {
-    // console.log(`The following error happened: ${err.message} ❌❌❌❌`);
-    throw err;
+    console.log(err.message);
   }
 };
-
-console.log('1: Getting the location');
-(async () => {
-  try {
-    const result = await whereAmI();
-    console.log(`2 result: ${result}`);
-  } catch (err) {
-    console.log(`2 error: ${err.message}`);
-  } finally {
-    console.log('3: Finished getting location');
-  }
-})();
-
+get3Countries('portugal', 'usa', 'canada');
 // console.log('3: Returning the location');
 
 // Coding challenge #1
