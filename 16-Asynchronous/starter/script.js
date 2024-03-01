@@ -340,8 +340,22 @@ const get3Countries = async function (c1, c2, c3) {
     console.log(err.message);
   }
 };
-get3Countries('portugal', 'usa', 'canada');
+// get3Countries('portugal', 'usa', 'canada');
 // console.log('3: Returning the location');
+
+// Promise.race()
+(async function () {
+  try {
+    const res = await Promise.race([
+      getJSON(`https://restcountries.com/v3.1/name/ushjjhja`),
+      getJSON(`https://restcountries.com/v3.1/name/portuqwgal`),
+      getJSON(`https://restcountries.com/v3.1/name/caqwdnada`),
+    ]);
+    console.log(res);
+  } catch (err) {
+    console.error(err.message);
+  }
+})();
 
 // Coding challenge #1
 
