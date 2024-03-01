@@ -488,5 +488,5 @@ const loadAll = async function (imgArr) {
   data.forEach(img => img.classList.add('parallel'));
 };
 
-// loadNPause();
+//// loadNPause();
 loadAll(imgArr);
