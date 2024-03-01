@@ -392,13 +392,13 @@ const get3Countries = async function (c1, c2, c3) {
 // })();
 
 // Promise.any()
-Promise.any([
-  Promise.reject('Rejected promise1'),
-  Promise.reject('Rejected promise2'),
-  Promise.reject('Rejected promise3'),
-])
-  .then(res => console.log(res))
-  .catch(err => console.log(err));
+// Promise.any([
+//   Promise.reject('Rejected promise1'),
+//   Promise.reject('Rejected promise2'),
+//   Promise.reject('Rejected promise3'),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.log(err));
 
 // Coding challenge #1
 
@@ -431,20 +431,20 @@ Promise.any([
 // Coding Challenge #2
 //Part 1
 // let currentImg;
-// const createImage = function (imgPath) {
-//   return new Promise(function (resolve, reject) {
-//     const imgEl = document.createElement('img');
-//     imgEl.src = imgPath;
-//     imgEl.addEventListener('load', function (e) {
-//       const imgContainer = document.querySelector('.images');
-//       imgContainer.append(imgEl);
-//       resolve(imgEl);
-//     });
-//     imgEl.addEventListener('error', function (e) {
-//       reject(imgEl);
-//     });
-//   });
-// };
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const imgEl = document.createElement('img');
+    imgEl.src = imgPath;
+    imgEl.addEventListener('load', function (e) {
+      const imgContainer = document.querySelector('.images');
+      imgContainer.append(imgEl);
+      resolve(imgEl);
+    });
+    imgEl.addEventListener('error', function (e) {
+      reject(imgEl);
+    });
+  });
+};
 
 // createImage('./img/img-1.jpg')
 //   .then(res => {
@@ -463,3 +463,30 @@ Promise.any([
 //     currentImg.style.display = 'none';
 //   })
 //   .catch(err => console.error(`${err} ❌❌`));
+
+// Coding Challenge #3
+const loadNPause = async function () {
+  try {
+    const img1 = await createImage('img/img-1.jpg');
+    await wait(2);
+    img1.style.display = 'none';
+    const img2 = await createImage('img/img-2.jpg');
+    await wait(2);
+    img2.style.display = 'none';
+  } catch (err) {
+    console.error(`${err} ❌❌`);
+  }
+};
+const imgArr = ['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'];
+
+const loadAll = async function (imgArr) {
+  const imgs = imgArr.map(async imgPath => await createImage(imgPath));
+  console.log(imgs);
+  // const data = await Promise.allSettled(imgs);
+  const data = await Promise.all(imgs);
+  console.log(data);
+  data.forEach(img => img.classList.add('parallel'));
+};
+
+// loadNPause();
+loadAll(imgArr);
