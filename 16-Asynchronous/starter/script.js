@@ -344,18 +344,61 @@ const get3Countries = async function (c1, c2, c3) {
 // console.log('3: Returning the location');
 
 // Promise.race()
-(async function () {
-  try {
-    const res = await Promise.race([
-      getJSON(`https://restcountries.com/v3.1/name/ushjjhja`),
-      getJSON(`https://restcountries.com/v3.1/name/portuqwgal`),
-      getJSON(`https://restcountries.com/v3.1/name/caqwdnada`),
-    ]);
-    console.log(res);
-  } catch (err) {
-    console.error(err.message);
-  }
-})();
+// (async function () {
+//   try {
+//     const res = await Promise.race([
+//       getJSON(`https://restcountries.com/v3.1/name/ushjjhja`),
+//       getJSON(`https://restcountries.com/v3.1/name/portuqwgal`),
+//       getJSON(`https://restcountries.com/v3.1/name/caqwdnada`),
+//     ]);
+//     console.log(res);
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// })();
+//Promise.allsettled()
+// (async function () {
+//   try {
+//     const result = await Promise.allSettled([
+//       Promise.resolve('Success promise1'),
+//       Promise.reject('Rejected promise1'),
+//       Promise.reject('Rejected promise2'),
+//     ]);
+//     if (result[1].status === 'rejected')
+//       throw new Error('This is error occured here');
+//     // console.log(result[1].status === 'rejected');
+//   } catch (err) {
+//     console.log(err);
+//     console.error(err.message, 'This is custom Error');
+//   }
+// })();
+
+// (async function () {
+//   try {
+//     const result = await Promise.all([
+//       Promise.resolve('Success promise1'),
+//       Promise.reject('Rejected promise1'),
+//       Promise.reject('Rejected promise2'),
+//     ]);
+//     console.log(result);
+//     // if (result[1].status === 'rejected')
+//     //   throw new Error('This is error occured here');
+//     // console.log(result);
+//     // console.log(result[1].status === 'rejected');
+//   } catch (err) {
+//     console.log(err);
+//     console.error(err.message, 'This is custom Error');
+//   }
+// })();
+
+// Promise.any()
+Promise.any([
+  Promise.reject('Rejected promise1'),
+  Promise.reject('Rejected promise2'),
+  Promise.reject('Rejected promise3'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.log(err));
 
 // Coding challenge #1
 
