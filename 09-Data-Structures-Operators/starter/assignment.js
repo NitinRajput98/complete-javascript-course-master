@@ -322,8 +322,21 @@ books.forEach(
 );
 
 // The Nullish Coalescing Operator
+//6.1
 books.forEach(
   book =>
     book.onlineContent ??
     console.log(`"${book.title} provides no data about its online content`)
 );
+
+//Logical Assignment Operators
+//7.1
+books.forEach(book => {
+  book.edition ||= 1; // book.edition || book.edition = 1
+});
+console.log(books);
+//7.2
+books.forEach(book => {
+  // book.thirdParty.goodreads.rating<4.2 && book.highlighted = false
+  book.highlighted &&= !book.thirdParty.goodreads.rating < 4.2;
+});
