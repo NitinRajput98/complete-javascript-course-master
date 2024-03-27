@@ -396,3 +396,14 @@ const newBook2 = {
   pages,
 };
 console.log(newBook2);
+
+//Optional Chaining (?.)
+//10.1
+const getFirstKeyword = book => {
+  return book?.keywords?.[0];
+};
+console.log(getFirstKeyword(books[0]));
+console.log(getFirstKeyword(newBook2));
+//Looping Objects: Object Keys, Values and Entries
+//11.1
+const entries = [];
