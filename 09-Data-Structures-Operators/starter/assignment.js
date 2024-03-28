@@ -407,3 +407,17 @@ console.log(getFirstKeyword(newBook2));
 //Looping Objects: Object Keys, Values and Entries
 //11.1
 const entries = [];
+for (let key of Object.keys(books[0].thirdParty.goodreads)) {
+  entries.push([key]);
+}
+console.log(entries);
+//11.2
+for (const [_, [key, value]] of Object.entries(
+  books[0].thirdParty.goodreads
+).entries()) {
+  entries.find(ele => ele.includes(key)).push(value);
+}
+console.log(entries);
+//11.3
+const entries2 = Object.entries(books[0].thirdParty.goodreads);
+console.log(entries2);
