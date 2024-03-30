@@ -5,9 +5,9 @@ import resultsView from './views/resultsView';
 import 'core-js/stable'; // Polyfilling everything else
 import 'regenerator-runtime/runtime'; // Polyfilling async/await
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipes = async () => {
   try {
@@ -29,11 +29,15 @@ const controlRecipes = async () => {
 const controlSearchResults = async () => {
   try {
     resultsView.renderSpinner();
+    // Get search query
     const query = searchView.getQuery();
     console.log('query', query);
     if (!query) return;
+    // Load search results
     await model.loadSearchResults(query);
-    resultsView.render(model.state.search.results);
+    console.log(model.state.search.results);
+    // Render Results
+    resultsView.render(model.getSearchResultsPage());
   } catch (err) {
     console.log(err);
   }
