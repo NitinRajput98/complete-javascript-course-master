@@ -6,10 +6,6 @@ import paginationView from './views/paginationView';
 import 'core-js/stable'; // Polyfilling everything else
 import 'regenerator-runtime/runtime'; // Polyfilling async/await
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
-
 const controlRecipes = async () => {
   try {
     const id = window.location.hash.slice(1);
