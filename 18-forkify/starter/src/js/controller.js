@@ -4,7 +4,7 @@ import searchView from './views/searchView';
 import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
 import 'core-js/stable'; // Polyfilling everything else
-import 'regenerator-runtime/runtime'; // Polyfilling async/await
+import 'regenerator-runtime/runtime'; // Polyfilling async/await/
 
 const controlRecipes = async () => {
   try {
