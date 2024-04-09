@@ -36,7 +36,7 @@ const controlRecipes = async function () {
 };
 
 const newFeature = function () {
-  console.log('New feature');
+  console.log('New feature added');
 };
 
 const controlSearchResults = async function () {
