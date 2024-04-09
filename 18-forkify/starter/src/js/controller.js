@@ -35,6 +35,10 @@ const controlRecipes = async function () {
   }
 };
 
+const newFeature = function () {
+  console.log('New feature');
+};
+
 const controlSearchResults = async function () {
   try {
     resultsView.renderSpinner();
